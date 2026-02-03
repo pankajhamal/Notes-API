@@ -1,0 +1,30 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  name String?
+  password String
+  createAt DateTime @default(now())
+
+  notes Note[] @relation("NotesCreator")
+}
+
+model Note {
+  id String @id @default(uuid())
+  title String
+  description String
+  createdById String
+  createAt DateTime @default(now())
+
+  creator User @relation("NotesCreator", fields: [createdById], references: [id], onDelete: Cascade)
+}
+

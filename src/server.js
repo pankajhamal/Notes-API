@@ -1,12 +1,16 @@
 import express from 'express'
-
+import {config} from 'dotenv'
 const app = express();
+
+//Import Routes
+import authRoutes from './routes/authRoutes.js'
+
+config();
 
 app.use(express.json());
 
-app.get("/test", (req, res)=>{
-  return res.status(200).json({Message: "Server is working"});
-})
+
+app.use("/auth", authRoutes)
 
 const PORT = 3001;
 app.listen(PORT, ()=>{
