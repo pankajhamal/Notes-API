@@ -40,4 +40,38 @@ const register = async (req, res) =>{
   });
 }
 
-export {register}
+const login = async (req, res) => {
+  const {email, password} = req.body;
+
+  if(!email || !password){
+    return res.status(400).json({message: "All fields are required"});
+  }
+  
+  const userExist = await prisma.user.findUnique({
+    where: {email}
+  })
+
+  //handle non existent account 
+  if(!userExist){
+    return res.status(401).json({errorMessage: "Incorrect email or password"});
+  }
+
+  const correctPassword = await bcrypt.compare(password, userExist.password);
+
+  if(!correctPassword) {
+    return res.status(401).json({errorMessage: "Incorrect email or password"});
+  }
+
+  return res.status(200).json({
+    status: "Login Successful",
+    data: {
+      user: {
+        name: userExist.name,
+        email: userExist.email
+      }
+    }
+  })
+
+}
+
+export {register, login}
