@@ -4,12 +4,15 @@ const app = express();
 
 //Import Routes
 import authRoutes from './routes/authRoutes.js'
+import noteRoutes from './routes/noteRoutes.js'
 
 config();
 
 app.use(express.json());
 
-app.use("/auth", authRoutes)
+app.use("/auth", authRoutes);
+app.use("/notes", noteRoutes);
+
 
 const PORT = 3001;
 app.listen(PORT, ()=>{
