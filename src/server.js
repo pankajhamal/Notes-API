@@ -10,7 +10,7 @@ config();
 
 app.use(express.json());
 
-app.use("/auth", authRoutes);
+app.use("/auth", authRoutes)
 app.use("/notes", noteRoutes);
 
 
